@@ -8,10 +8,12 @@ class CustomElevatedButton extends StatelessWidget {
     required this.text,
     required this.onPressed,
     this.isLoading = false,
+    this.loadingText,
   }) : super(key: key);
 
   final bool isLoading;
   final String text;
+  final String? loadingText;
   final VoidCallback onPressed;
 
   @override
@@ -25,8 +27,9 @@ class CustomElevatedButton extends StatelessWidget {
           if (isLoading) ...[
             const CustomCupertinoActivityIndicator(),
             const SizedBox(width: 8.0),
-          ],
-          Text(text),
+            Text(loadingText != null ? loadingText! : text),
+          ] else
+            Text(text),
         ],
       ),
     );

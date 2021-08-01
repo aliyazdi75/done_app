@@ -31,7 +31,11 @@ class ReservationSheet extends StatelessWidget {
                         icon: const Icon(Icons.arrow_back_ios),
                       ),
                 title: Text(
-                  isNaming ? 'Name' : 'Budget',
+                  isNaming
+                      ? 'Name'
+                      : isBudgeting
+                          ? 'Budget'
+                          : 'Summery',
                   style: Theme.of(context).textTheme.headline6!.copyWith(
                         fontWeight: FontWeight.w900,
                       ),
@@ -44,14 +48,7 @@ class ReservationSheet extends StatelessWidget {
                   child: const Text('Cancel'),
                 ),
               ),
-              LinearProgressIndicator(
-                value: (isNaming
-                        ? 1
-                        : isBudgeting
-                            ? 2
-                            : 3) /
-                    3,
-              ),
+              LinearProgressIndicator(value: state.step / 3),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(24.0),
@@ -68,9 +65,12 @@ class ReservationSheet extends StatelessWidget {
                         ),
                       const SizedBox(height: 42.0),
                       Expanded(
-                          child: isNaming
-                              ? const NamingWidget()
-                              : const BudgetingWidget()),
+                        child: isNaming
+                            ? const NamingWidget()
+                            : isBudgeting
+                                ? const BudgetingWidget()
+                                : const ConfirmationWidget(),
+                      ),
                     ],
                   ),
                 ),

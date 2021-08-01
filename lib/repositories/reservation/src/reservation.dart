@@ -10,4 +10,8 @@ class ReservationRepository {
     _budgets = await ReservationApi.getBudgets();
     return _budgets;
   }
+
+  Future<void> submitReservation() async {
+    await ReservationApi.submitReservation();
+  }
 }

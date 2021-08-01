@@ -7,4 +7,8 @@ class ReservationApi {
     final jsonStr = await rootBundle.loadString('assets/data.json');
     return Budgets.fromJson(jsonStr);
   }
+
+  static Future<void> submitReservation() async {
+    await Future.delayed(const Duration(seconds: 1));
+  }
 }

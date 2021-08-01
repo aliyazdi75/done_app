@@ -18,7 +18,7 @@ class NameChanged extends ReservationEvent {
   final String name;
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [name];
 }
 
 class ReservationStarted extends ReservationEvent {
@@ -27,6 +27,27 @@ class ReservationStarted extends ReservationEvent {
 
 class NamingSubmitted extends ReservationEvent {
   const NamingSubmitted();
+}
+
+class BudgetChanged extends ReservationEvent {
+  const BudgetChanged(this.budget);
+
+  final Budget budget;
+
+  @override
+  List<Object?> get props => [budget];
+}
+
+class BudgetingSubmitted extends ReservationEvent {
+  const BudgetingSubmitted();
+}
+
+class ConfirmationSubmitted extends ReservationEvent {
+  const ConfirmationSubmitted();
+}
+
+class ResetRequested extends ReservationEvent {
+  const ResetRequested();
 }
 
 class PreviousStepRequested extends ReservationEvent {
