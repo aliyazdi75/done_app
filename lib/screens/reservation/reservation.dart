@@ -1,88 +1,83 @@
 import 'package:done_app/blocs/reservation/bloc.dart';
-import 'package:done_app/repositories/reservation/index.dart';
+import 'package:done_app/data/constants/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'components/index.dart';
 
-class ReservationPage extends StatelessWidget {
-  ReservationPage({Key? key}) : super(key: key);
+class ReservationSheet extends StatelessWidget {
+  const ReservationSheet({Key? key, required this.reservationBloc})
+      : super(key: key);
 
-  final ReservationRepository reservationRepository = ReservationRepository();
+  final ReservationBloc reservationBloc;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: RepositoryProvider(
-        create: (context) => reservationRepository,
-        child: BlocProvider(
-          create: (context) =>
-              ReservationBloc(reservationRepository: reservationRepository),
-          child: BlocListener<ReservationBloc, ReservationState>(
-            listener: (context, state) {
-              switch (state.status) {
-                case ReservationStatus.naming:
-                  showModalBottomSheet<void>(
-                      context: context,
-                      isDismissible: false,
-                      enableDrag: false,
-                      useRootNavigator: true,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(10),
+    return BlocProvider.value(
+      value: reservationBloc,
+      child: BlocBuilder<ReservationBloc, ReservationState>(
+        builder: (context, state) {
+          final isNaming = state.status == ReservationStatus.naming;
+          final isBudgeting = state.status == ReservationStatus.budgeting;
+          return Column(
+            children: [
+              ListTile(
+                leading: isNaming
+                    ? null
+                    : IconButton(
+                        onPressed: () =>
+                            BlocProvider.of<ReservationBloc>(context)
+                                .add(const PreviousStepRequested()),
+                        icon: const Icon(Icons.arrow_back_ios),
+                      ),
+                title: Text(
+                  isNaming ? 'Name' : 'Budget',
+                  style: Theme.of(context).textTheme.headline6!.copyWith(
+                        fontWeight: FontWeight.w900,
+                      ),
+                ),
+                subtitle: const Text('Book video call for quote'),
+                trailing: TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Cancel'),
+                ),
+              ),
+              LinearProgressIndicator(
+                value: (isNaming
+                        ? 1
+                        : isBudgeting
+                            ? 2
+                            : 3) /
+                    3,
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (isNaming || isBudgeting)
+                        Text(
+                          isNaming ? description[0] : description[1],
+                          style: Theme.of(context)
+                              .textTheme
+                              .caption!
+                              .copyWith(fontSize: 15.0),
                         ),
-                      ),
-                      builder: (_) {
-                        return ReservationSheet(
-                          reservationBloc:
-                              BlocProvider.of<ReservationBloc>(context),
-                        );
-                      });
-                  break;
-                case ReservationStatus.failure:
-                  ScaffoldMessenger.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(
-                      const SnackBar(
-                        content: Text('Failure due to getting Budgets!'),
-                      ),
-                    );
-                  break;
-                default:
-                  break;
-              }
-            },
-            child: BlocBuilder<ReservationBloc, ReservationState>(
-              builder: (context, state) {
-                return Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (state.status == ReservationStatus.initial) {
-                          BlocProvider.of<ReservationBloc>(context)
-                              .add(const GetBudgetsRequested());
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                          minimumSize: const Size(336, 44)),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          if (state.status == ReservationStatus.loading) ...[
-                            const CustomCupertinoActivityIndicator(),
-                            const SizedBox(width: 8.0),
-                          ],
-                          const Text('Start Booking'),
-                        ],
-                      ),
-                    ),
+                      const SizedBox(height: 42.0),
+                      Expanded(
+                          child: isNaming
+                              ? const NamingWidget()
+                              : const BudgetingWidget()),
+                    ],
                   ),
-                );
-              },
-            ),
-          ),
-        ),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

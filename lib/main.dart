@@ -1,8 +1,8 @@
+import 'package:done_app/screens/home/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'data/constants/index.dart';
-import 'screens/reservation/reservation.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         // ),
         primarySwatch: primarySwatchColor,
       ),
-      home: ReservationPage(),
+      home: HomePage(),
     );
   }
 }
