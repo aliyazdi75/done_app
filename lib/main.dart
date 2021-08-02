@@ -17,22 +17,10 @@ class MyApp extends StatelessWidget {
       title: 'Done Application',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // bottomSheetTheme: ,
-        // sliderTheme: ,
         progressIndicatorTheme: ProgressIndicatorThemeData(
           linearTrackColor: Theme.of(context).canvasColor,
           color: accentColor,
         ),
-        // colorScheme: ColorScheme.light(
-        //   surface: Colors.white,
-        //   primary: primarySwatchColor,
-        //   primaryVariant: Colors.blueGrey,
-        //   secondary: Colors.orange,
-        //   secondaryVariant: Colors.green,
-        //   onPrimary: Colors.purple,
-        //   onSecondary: Colors.amberAccent,
-        //   brightness: Brightness.light,
-        // ),
         primarySwatch: primarySwatchColor,
       ),
       home: HomePage(),
