@@ -17,32 +17,32 @@ class ReservationState extends Equatable {
     this.status = ReservationStatus.initial,
     this.name = '',
     this.selectedBudget,
-    this.step = 1,
+    this.stepCount = 1,
     this.budgets = const <Budget>[],
   });
 
   final ReservationStatus status;
   final String name;
   final Budget? selectedBudget;
-  final int step;
+  final int stepCount;
   final List<Budget> budgets;
 
   ReservationState copyWith({
     ReservationStatus? status,
     String? name,
     Budget? selectedBudget,
-    int? step,
+    int? stepCount,
     List<Budget>? budgets,
   }) {
     return ReservationState(
       status: status ?? this.status,
       name: name ?? this.name,
       selectedBudget: selectedBudget ?? this.selectedBudget,
-      step: step ?? this.step,
+      stepCount: stepCount ?? this.stepCount,
       budgets: budgets ?? this.budgets,
     );
   }
 
   @override
-  List<Object?> get props => [status, name, selectedBudget, step];
+  List<Object?> get props => [status, name, selectedBudget, stepCount];
 }

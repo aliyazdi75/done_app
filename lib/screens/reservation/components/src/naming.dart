@@ -39,27 +39,28 @@ class _NamingWidgetState extends State<NamingWidget> {
       children: [
         Form(
           key: formKey,
-          child: TextFormField(
-            controller: textEditingController,
-            onFieldSubmitted: (name) => onSubmit(),
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            validator: (name) {
-              if (name!.isEmpty) {
-                return 'Name must not be empty';
-              }
-              return null;
-            },
-            onChanged: (password) => BlocProvider.of<ReservationBloc>(context)
-                .add(NameChanged(password)),
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
+          child: Expanded(
+            child: TextFormField(
+              controller: textEditingController,
+              onFieldSubmitted: (name) => onSubmit(),
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (name) {
+                if (name!.isEmpty) {
+                  return 'Name must not be empty';
+                }
+                return null;
+              },
+              onChanged: (password) => BlocProvider.of<ReservationBloc>(context)
+                  .add(NameChanged(password)),
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                labelText: 'Your full name',
               ),
-              labelText: 'Your full name',
             ),
           ),
         ),
-        Expanded(child: Container()),
         CustomElevatedButton(
           text: 'Continue',
           onPressed: onSubmit,

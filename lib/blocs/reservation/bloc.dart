@@ -26,11 +26,11 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
     } else if (event is NameChanged) {
       yield state.copyWith(name: event.name);
     } else if (event is NamingSubmitted) {
-      yield state.copyWith(status: ReservationStatus.budgeting, step: 2);
+      yield state.copyWith(status: ReservationStatus.budgeting, stepCount: 2);
     } else if (event is BudgetChanged) {
       yield state.copyWith(selectedBudget: event.budget);
     } else if (event is BudgetingSubmitted) {
-      yield state.copyWith(status: ReservationStatus.confirming, step: 3);
+      yield state.copyWith(status: ReservationStatus.confirming, stepCount: 3);
     } else if (event is ConfirmationSubmitted) {
       yield* _mapConfirmingSubmittedToState();
     } else if (event is PreviousStepRequested) {
@@ -68,9 +68,9 @@ class ReservationBloc extends Bloc<ReservationEvent, ReservationState> {
 
   Stream<ReservationState> _mapPreviousStepRequestedToState() async* {
     if (state.status == ReservationStatus.budgeting) {
-      yield state.copyWith(status: ReservationStatus.naming);
+      yield state.copyWith(status: ReservationStatus.naming, stepCount: 1);
     } else if (state.status == ReservationStatus.confirming) {
-      yield state.copyWith(status: ReservationStatus.budgeting);
+      yield state.copyWith(status: ReservationStatus.budgeting, stepCount: 2);
     }
   }
 }

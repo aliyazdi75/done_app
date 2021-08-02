@@ -16,40 +16,41 @@ class BudgetingWidget extends StatelessWidget {
         final selectedBudget = state.selectedBudget;
         return Column(
           children: [
-            ...List.generate(
-              budgets.length,
-              (int index) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 6.0),
-                  child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      minimumSize: const Size(double.infinity, 44.0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
+            Expanded(
+              child: ListView.builder(
+                itemCount: budgets.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 6.0),
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        minimumSize: const Size(double.infinity, 44.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        side: const BorderSide().copyWith(
+                          width: selectedBudget == budgets[index] ? 2.0 : null,
+                          color: selectedBudget == budgets[index]
+                              ? accentColor
+                              : Colors.grey,
+                        ),
                       ),
-                      side: const BorderSide().copyWith(
-                        width: selectedBudget == budgets[index] ? 2.0 : null,
-                        color: selectedBudget == budgets[index]
-                            ? accentColor
-                            : Colors.grey,
+                      child: Text(
+                        budgets[index].minimum == null
+                            ? 'Up to ${priceCovert(budgets[index].maximum!)} kr'
+                            : budgets[index].maximum == null
+                                ? 'Over ${priceCovert(budgets[index].minimum!)} kr'
+                                : '${priceCovert(budgets[index].minimum!)} - ${priceCovert(budgets[index].maximum!)} kr',
                       ),
+                      onPressed: () {
+                        BlocProvider.of<ReservationBloc>(context)
+                            .add(BudgetChanged(budgets[index]));
+                      },
                     ),
-                    child: Text(
-                      budgets[index].minimum == null
-                          ? 'Up to ${priceCovert(budgets[index].maximum!)} kr'
-                          : budgets[index].maximum == null
-                              ? 'Over ${priceCovert(budgets[index].minimum!)} kr'
-                              : '${priceCovert(budgets[index].minimum!)} - ${priceCovert(budgets[index].maximum!)} kr',
-                    ),
-                    onPressed: () {
-                      BlocProvider.of<ReservationBloc>(context)
-                          .add(BudgetChanged(budgets[index]));
-                    },
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
-            Expanded(child: Container()),
             CustomElevatedButton(
               text: 'Continue',
               onPressed: () {

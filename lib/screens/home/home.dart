@@ -36,9 +36,13 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                     builder: (_) {
-                      return ReservationSheet(
-                        reservationBloc:
-                            BlocProvider.of<ReservationBloc>(context),
+                      return Padding(
+                        padding: EdgeInsets.only(
+                            top: MediaQuery.of(context).padding.top),
+                        child: ReservationSheet(
+                          reservationBloc:
+                              BlocProvider.of<ReservationBloc>(context),
+                        ),
                       );
                     },
                   ).then((success) {
