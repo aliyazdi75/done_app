@@ -67,8 +67,6 @@ class HomePage extends StatelessWidget {
                         children: [
                           ElevatedButton(
                             onPressed: () {
-                              BlocProvider.of<ReservationBloc>(context)
-                                  .add(const ResetRequested());
                               Navigator.pop(context);
                             },
                             style: ElevatedButton.styleFrom(
@@ -78,7 +76,8 @@ class HomePage extends StatelessWidget {
                         ],
                       );
                     },
-                  );
+                  ).then((value) => BlocProvider.of<ReservationBloc>(context)
+                      .add(const ResetRequested()));
                   break;
                 case ReservationStatus.failure:
                   ScaffoldMessenger.of(context)
