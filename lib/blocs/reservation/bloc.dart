@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:done_app/data/models/reservation/index.dart';
-import 'package:done_app/repositories/reservation/index.dart';
+import 'package:done_app/data/repositories/reservation/index.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';

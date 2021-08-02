@@ -1,5 +1,5 @@
 import 'package:done_app/blocs/reservation/bloc.dart';
-import 'package:done_app/repositories/reservation/index.dart';
+import 'package:done_app/data/repositories/reservation/index.dart';
 import 'package:done_app/screens/components/index.dart';
 import 'package:done_app/screens/reservation/reservation.dart';
 import 'package:flutter/material.dart';
